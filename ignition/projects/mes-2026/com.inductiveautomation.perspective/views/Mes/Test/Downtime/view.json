@@ -1,0 +1,656 @@
+{
+  "custom": {
+    "window": 18,
+    "nowLine": "",
+    "totals": [],
+    "events": []
+  },
+  "params": {},
+  "props": {},
+  "propConfig": {
+    "custom.nowLine": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.ui.downtime_now_line()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('downtime_now_line', sys.exc_info()[1])\n\t\treturn 'error: %s' % sys.exc_info()[1]"
+          }
+        ]
+      }
+    },
+    "custom.totals": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "toMillis(now(2000)) + '|' + coalesce({view.custom.window}, 0)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\tw = int(float(str(value).split('|')[1]))\n\t\treturn mes.ui.class_totals(w or None)\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('class_totals', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    },
+    "custom.events": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "toMillis(now(2000)) + '|' + coalesce({view.custom.window}, 0)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\tw = int(float(str(value).split('|')[1]))\n\t\treturn mes.ui.downtime_rows(w or None)\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('downtime_rows', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    }
+  },
+  "root": {
+    "type": "ia.container.flex",
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "alignItems": "stretch"
+    },
+    "children": [
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "Title"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "text": "Downtime — DT-004 test (throwaway)"
+        }
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "NowLine"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {},
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "type": "property",
+              "config": {
+                "path": "view.custom.nowLine"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "WindowRow"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "alignItems": "center"
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "WindowLabel"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Window:"
+            }
+          },
+          {
+            "type": "ia.input.dropdown",
+            "meta": {
+              "name": "Window"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "200px"
+            },
+            "props": {
+              "value": 18,
+              "placeholder": {
+                "text": "window"
+              },
+              "options": [
+                {
+                  "value": 18,
+                  "label": "Last loop (18 min)"
+                },
+                {
+                  "value": 60,
+                  "label": "60 min"
+                },
+                {
+                  "value": 0,
+                  "label": "Since start"
+                }
+              ]
+            },
+            "propConfig": {
+              "props.value": {
+                "binding": {
+                  "type": "property",
+                  "config": {
+                    "path": "view.custom.window",
+                    "bidirectional": true
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "TotalsTitle"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "text": "Totals by class"
+        }
+      },
+      {
+        "type": "ia.display.table",
+        "meta": {
+          "name": "Totals"
+        },
+        "position": {
+          "shrink": 0,
+          "basis": "260px"
+        },
+        "props": {
+          "data": [],
+          "columns": [
+            {
+              "field": "class",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Class",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "planned",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Planned",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "events",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Events",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "total_s",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Total s",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            }
+          ]
+        },
+        "propConfig": {
+          "props.data": {
+            "binding": {
+              "type": "property",
+              "config": {
+                "path": "view.custom.totals"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "EventsTitle"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "text": "Events (newest first)"
+        }
+      },
+      {
+        "type": "ia.display.table",
+        "meta": {
+          "name": "Events"
+        },
+        "position": {
+          "shrink": 0,
+          "basis": "500px"
+        },
+        "props": {
+          "data": [],
+          "columns": [
+            {
+              "field": "start",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Start",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "end",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "End",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "duration",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Duration s",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "class",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Class",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "planned",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Planned",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "source",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Source",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "code",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Code",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "product",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Product",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "wo",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Work order",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            }
+          ]
+        },
+        "propConfig": {
+          "props.data": {
+            "binding": {
+              "type": "property",
+              "config": {
+                "path": "view.custom.events"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

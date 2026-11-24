@@ -1,0 +1,1297 @@
+{
+  "custom": {
+    "schedule": [],
+    "result": "",
+    "readinessOptions": [],
+    "readinessResult": "",
+    "overrideOptions": [],
+    "overrides": [],
+    "overrideResult": ""
+  },
+  "params": {},
+  "props": {},
+  "propConfig": {
+    "custom.schedule": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.schedule.schedule_rows()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('schedule_rows', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    },
+    "custom.readinessOptions": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.schedule.readiness_targets()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('readiness_targets', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    },
+    "custom.overrideOptions": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.schedule.override_targets()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('override_targets', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    },
+    "custom.overrides": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.schedule.override_rows()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('override_rows', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    }
+  },
+  "root": {
+    "type": "ia.container.flex",
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "alignItems": "stretch"
+    },
+    "children": [
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "Title"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "text": "Schedule — SCHED-001/002/003 plan vs actual, readiness and override test (throwaway)"
+        }
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "Actions"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "alignItems": "center"
+        },
+        "children": [
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Replan"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Replan"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\tself.view.custom.result = mes.schedule.replan()"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "ScheduleReleased"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Schedule released orders"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\tself.view.custom.result = mes.schedule.schedule_released()"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "Result"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {},
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "type": "property",
+                  "config": {
+                    "path": "view.custom.result"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "ReadinessRow"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "alignItems": "center"
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "ReadinessLabel"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Readiness:"
+            }
+          },
+          {
+            "type": "ia.input.dropdown",
+            "meta": {
+              "name": "ReadinessOrder"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "320px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": {
+                "text": "work order"
+              },
+              "options": []
+            },
+            "propConfig": {
+              "props.options": {
+                "binding": {
+                  "type": "property",
+                  "config": {
+                    "path": "view.custom.readinessOptions"
+                  }
+                }
+              },
+              "props.value": {
+                "onChange": {
+                  "enabled": null,
+                  "script": "\ttry:\n\t\tr = mes.schedule.readiness_of(currentValue.value if currentValue else None)\n\t\tself.getSibling('ReadinessPlates').props.selected = bool(r['plates_ready'])\n\t\tself.getSibling('ReadinessInk').props.selected = bool(r['ink_ready'])\n\t\tself.getSibling('ReadinessProof').props.selected = bool(r['proof_approved'])\n\texcept:\n\t\timport sys\n\t\tself.view.custom.readinessResult = 'error: %s' % (sys.exc_info()[1],)"
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.checkbox",
+            "meta": {
+              "name": "ReadinessPlates"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Plates & cylinders",
+              "selected": false
+            }
+          },
+          {
+            "type": "ia.input.checkbox",
+            "meta": {
+              "name": "ReadinessInk"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Ink",
+              "selected": false
+            }
+          },
+          {
+            "type": "ia.input.checkbox",
+            "meta": {
+              "name": "ReadinessProof"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Proof approved",
+              "selected": false
+            }
+          },
+          {
+            "type": "ia.input.text-field",
+            "meta": {
+              "name": "ReadinessBy"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "180px"
+            },
+            "props": {
+              "text": "",
+              "placeholder": "entered by"
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "SaveReadiness"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "140px"
+            },
+            "props": {
+              "text": "Save readiness"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tres = mes.schedule.save_readiness(self.getSibling('ReadinessOrder').props.value,\n\t\t\tself.getSibling('ReadinessPlates').props.selected, self.getSibling('ReadinessInk').props.selected,\n\t\t\tself.getSibling('ReadinessProof').props.selected, self.getSibling('ReadinessBy').props.text)\n\texcept:\n\t\timport sys\n\t\tres = 'error: %s' % (sys.exc_info()[1],)\n\tself.view.custom.readinessResult = res"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "ReadinessResult"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {},
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "type": "property",
+                  "config": {
+                    "path": "view.custom.readinessResult"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "OverrideRow"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "alignItems": "center"
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "OverrideLabel"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Override:"
+            }
+          },
+          {
+            "type": "ia.input.dropdown",
+            "meta": {
+              "name": "OverrideOrder"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "220px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": {
+                "text": "queued order"
+              },
+              "options": []
+            },
+            "propConfig": {
+              "props.options": {
+                "binding": {
+                  "type": "property",
+                  "config": {
+                    "path": "view.custom.overrideOptions"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.dropdown",
+            "meta": {
+              "name": "OverrideReason"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "200px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": {
+                "text": "reason"
+              },
+              "options": [
+                {
+                  "value": "customer expedite",
+                  "label": "customer expedite"
+                },
+                {
+                  "value": "material availability",
+                  "label": "material availability"
+                },
+                {
+                  "value": "other",
+                  "label": "other"
+                }
+              ]
+            }
+          },
+          {
+            "type": "ia.input.text-field",
+            "meta": {
+              "name": "OverrideBy"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "180px"
+            },
+            "props": {
+              "text": "",
+              "placeholder": "entered by"
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "MoveToFront"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "220px"
+            },
+            "props": {
+              "text": "Move to front (override)"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tres = mes.schedule.move_to_front(self.getSibling('OverrideOrder').props.value,\n\t\t\tself.getSibling('OverrideReason').props.value, self.getSibling('OverrideBy').props.text)\n\texcept:\n\t\timport sys\n\t\tres = 'error: %s' % (sys.exc_info()[1],)\n\tself.view.custom.overrideResult = res"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "MoveUp"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "220px"
+            },
+            "props": {
+              "text": "Move up (plan edit, no record)"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tres = mes.schedule.move_up(self.getSibling('OverrideOrder').props.value)\n\texcept:\n\t\timport sys\n\t\tres = 'error: %s' % (sys.exc_info()[1],)\n\tself.view.custom.overrideResult = res"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "OverrideResult"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {},
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "type": "property",
+                  "config": {
+                    "path": "view.custom.overrideResult"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.display.table",
+        "meta": {
+          "name": "Schedule"
+        },
+        "position": {
+          "shrink": 0,
+          "basis": "500px"
+        },
+        "props": {
+          "data": [],
+          "columns": [
+            {
+              "field": "seq",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Seq",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "wo",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Work order",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "product",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Product",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "status",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Status",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "planned_start",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Planned start",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "planned_end",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Planned end",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "planned_s",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Planned s",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "actual_start",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Actual start",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "actual_end",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Actual end",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "actual_s",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Actual s",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "gap_s",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Gap s",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "plates",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Plates",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "ink",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Ink",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "proof",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Proof",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "swr",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Started w/o readiness",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "reconcile",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Reconcile",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            }
+          ]
+        },
+        "propConfig": {
+          "props.data": {
+            "binding": {
+              "type": "property",
+              "config": {
+                "path": "view.custom.schedule"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "OverridesTitle"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "text": "Override records (newest first)"
+        }
+      },
+      {
+        "type": "ia.display.table",
+        "meta": {
+          "name": "Overrides"
+        },
+        "position": {
+          "shrink": 0,
+          "basis": "200px"
+        },
+        "props": {
+          "data": [],
+          "columns": [
+            {
+              "field": "time",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Time",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "wo",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Work order",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "product",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Product",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "move",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "From -> to",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "reason",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Reason",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "by",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Entered by",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "active",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Active",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            }
+          ]
+        },
+        "propConfig": {
+          "props.data": {
+            "binding": {
+              "type": "property",
+              "config": {
+                "path": "view.custom.overrides"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+[
+  {
+    "dataType": "Float8",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/Unwind/WebTension (UNS-002).",
+    "engUnit": "lbf",
+    "expression": "toFloat(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/Unwind/WebTension}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "WebTension",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  }
+]

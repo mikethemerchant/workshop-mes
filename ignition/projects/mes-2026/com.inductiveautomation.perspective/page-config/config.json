@@ -1,0 +1,25 @@
+{
+  "pages": {
+    "/press1": {
+      "viewPath": "Press1/Main",
+      "title": "4.0 Printing — Press 1",
+      "docks": {}
+    },
+    "/mes/work-orders": {
+      "viewPath": "Mes/Test/WorkOrders",
+      "title": "MES test — Work orders",
+      "docks": {}
+    },
+    "/mes/schedule": {
+      "viewPath": "Mes/Test/Schedule",
+      "title": "MES test — Schedule",
+      "docks": {}
+    },
+    "/mes/downtime": {
+      "viewPath": "Mes/Test/Downtime",
+      "title": "MES test — Downtime",
+      "docks": {}
+    }
+  },
+  "sharedDocks": {}
+}

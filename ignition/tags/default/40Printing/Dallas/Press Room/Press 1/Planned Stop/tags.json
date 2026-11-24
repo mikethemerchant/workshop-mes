@@ -1,0 +1,63 @@
+[
+  {
+    "dataType": "Boolean",
+    "datasource": "mes",
+    "documentation": "Query on mes.planned_stop, the open stop (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "Active",
+    "query": "SELECT EXISTS (SELECT 1 FROM mes.planned_stop WHERE end_ts IS NULL)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "Boolean",
+    "datasource": "mes",
+    "documentation": "Query on mes.planned_stop, the open stop (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "ConflictWithPLC",
+    "query": "SELECT coalesce((SELECT conflict_flag FROM mes.planned_stop WHERE end_ts IS NULL ORDER BY start_ts DESC LIMIT 1), false)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "String",
+    "defaultValue": "",
+    "documentation": "Written by DT-003 from mes.engine (memory): the JSON event of MES §5, published by UNS-005.",
+    "name": "Event",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "String",
+    "datasource": "mes",
+    "documentation": "Query on mes.planned_stop, the open stop (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "Reason",
+    "query": "SELECT (SELECT reason FROM mes.planned_stop WHERE end_ts IS NULL ORDER BY start_ts DESC LIMIT 1)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "DateTime",
+    "datasource": "mes",
+    "documentation": "Query on mes.planned_stop, the open stop (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "Since",
+    "query": "SELECT (SELECT start_ts FROM mes.planned_stop WHERE end_ts IS NULL ORDER BY start_ts DESC LIMIT 1)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  }
+]

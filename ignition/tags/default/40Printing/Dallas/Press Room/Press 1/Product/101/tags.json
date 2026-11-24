@@ -1,0 +1,43 @@
+[
+  {
+    "dataType": "Float8",
+    "datasource": "mes",
+    "documentation": "Query on mes.product_master (UNS-004).",
+    "engUnit": "m/min",
+    "executionMode": "FixedRate",
+    "executionRate": 60000,
+    "name": "IdealSpeed",
+    "query": "SELECT (SELECT ideal_speed_mpm FROM mes.product_master WHERE product_code = 101)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "Int4",
+    "datasource": "mes",
+    "documentation": "Query on mes.product_master (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 60000,
+    "name": "Lanes",
+    "query": "SELECT (SELECT lanes FROM mes.product_master WHERE product_code = 101)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "Int4",
+    "datasource": "mes",
+    "documentation": "Query on mes.product_master (UNS-004).",
+    "engUnit": "s",
+    "executionMode": "FixedRate",
+    "executionRate": 60000,
+    "name": "ScheduledChangeoverSec",
+    "query": "SELECT (SELECT scheduled_changeover_s FROM mes.product_master WHERE product_code = 101)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  }
+]

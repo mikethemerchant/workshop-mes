@@ -1,0 +1,35 @@
+[
+  {
+    "dataType": "Float8",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/Tunnel Dryer/Zone1Temp (UNS-002).",
+    "engUnit": "°F",
+    "expression": "toFloat(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/Tunnel Dryer/Zone1Temp}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "Zone1Temp",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Float8",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/Tunnel Dryer/Zone2Temp (UNS-002).",
+    "engUnit": "°F",
+    "expression": "toFloat(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/Tunnel Dryer/Zone2Temp}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "Zone2Temp",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Float8",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/Tunnel Dryer/Zone3Temp (UNS-002).",
+    "engUnit": "°F",
+    "expression": "toFloat(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/Tunnel Dryer/Zone3Temp}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "Zone3Temp",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  }
+]

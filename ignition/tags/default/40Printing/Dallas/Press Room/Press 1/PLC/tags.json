@@ -1,0 +1,94 @@
+[
+  {
+    "dataType": "Boolean",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/PLC/Connected (UNS-002).",
+    "expression": "toBoolean(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/PLC/Connected}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "Connected",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Int4",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/PLC/FaultCode (UNS-002).",
+    "expression": "toInt(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/PLC/FaultCode}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "FaultCode",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Int4",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/PLC/GoodMeters (UNS-002).",
+    "engUnit": "m",
+    "expression": "toInt(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/PLC/GoodMeters}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "GoodMeters",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Int4",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/PLC/MachineState (UNS-002).",
+    "expression": "toInt(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/PLC/MachineState}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "MachineState",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Int4",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/PLC/ProductCode (UNS-002).",
+    "expression": "toInt(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/PLC/ProductCode}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "ProductCode",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Boolean",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/PLC/RTOInhibit (UNS-002).",
+    "expression": "toBoolean(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/PLC/RTOInhibit}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "RTOInhibit",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Int4",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/PLC/RejectMeters (UNS-002).",
+    "engUnit": "m",
+    "expression": "toInt(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/PLC/RejectMeters}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "RejectMeters",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "String",
+    "documentation": "Sim sample time (ISO 8601 UTC) from the PLC/MachineState envelope timestamp (ENG-001).",
+    "expression": "toStr(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/PLC/MachineState}, \"timestamp\"))",
+    "expressionType": "Expression",
+    "name": "SampleTime",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Int4",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/PLC/WebLanes (UNS-002).",
+    "expression": "toInt(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/PLC/WebLanes}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "WebLanes",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  }
+]

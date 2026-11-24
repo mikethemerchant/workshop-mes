@@ -1,0 +1,35 @@
+[
+  {
+    "dataType": "Float8",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/Print Section/InkViscosity (UNS-002).",
+    "engUnit": "s",
+    "expression": "toFloat(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/Print Section/InkViscosity}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "InkViscosity",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Float8",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/Print Section/LineSpeed (UNS-002).",
+    "engUnit": "m/min",
+    "expression": "toFloat(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/Print Section/LineSpeed}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "LineSpeed",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  },
+  {
+    "dataType": "Float8",
+    "documentation": "Edge mirror of MQTT topic 40Printing/Dallas/Press Room/Press 1/Print Section/RegistrationError (UNS-002).",
+    "engUnit": "mm",
+    "expression": "toFloat(jsonGet({[MQTT Engine]40Printing/Dallas/Press Room/Press 1/Print Section/RegistrationError}, \"value\"))",
+    "expressionType": "Expression",
+    "name": "RegistrationError",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "expr"
+  }
+]

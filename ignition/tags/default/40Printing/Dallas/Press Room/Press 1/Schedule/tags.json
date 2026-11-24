@@ -1,0 +1,68 @@
+[
+  {
+    "dataType": "Int4",
+    "datasource": "mes",
+    "documentation": "Query on mes.schedule_entry, the queue head (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "HeadProductCode",
+    "query": "SELECT (SELECT wo.product_code FROM mes.schedule_entry se JOIN mes.work_order wo USING (work_order_id) WHERE se.status = 'Queued' ORDER BY se.sequence LIMIT 1)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "String",
+    "defaultValue": "",
+    "documentation": "Written by SCHED-003 from mes.engine (memory): the JSON event of MES §4.1, published by UNS-005.",
+    "name": "Override",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "Boolean",
+    "defaultValue": false,
+    "documentation": "Written by SCHED-003 from mes.engine (memory).",
+    "name": "OverrideActive",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "Int4",
+    "datasource": "mes",
+    "documentation": "Query on mes.schedule_entry, Queued entries (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "QueueDepth",
+    "query": "SELECT count(*) FROM mes.schedule_entry WHERE status = 'Queued'",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "Boolean",
+    "datasource": "mes",
+    "documentation": "Query on mes.job_readiness for the queue head (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "ReadinessOk",
+    "query": "SELECT coalesce((SELECT jr.is_ready FROM mes.schedule_entry se LEFT JOIN mes.job_readiness jr USING (work_order_id) WHERE se.status = 'Queued' ORDER BY se.sequence LIMIT 1), false)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "String",
+    "defaultValue": "",
+    "documentation": "Written by SCHED-003 from mes.engine (memory).",
+    "name": "ReconcileResult",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  }
+]

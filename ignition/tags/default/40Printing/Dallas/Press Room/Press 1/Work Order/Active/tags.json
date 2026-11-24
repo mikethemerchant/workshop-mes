@@ -1,0 +1,82 @@
+[
+  {
+    "dataType": "Int4",
+    "datasource": "mes",
+    "documentation": "Query on mes.v_work_order_table, the Running work order (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "ProductCode",
+    "query": "SELECT (SELECT product_code FROM mes.v_work_order_table WHERE status = 'Running' ORDER BY run_start DESC NULLS LAST LIMIT 1)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "Int4",
+    "datasource": "mes",
+    "documentation": "Query on mes.v_work_order_table, the Running work order (UNS-004).",
+    "engUnit": "m",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "QtyGood",
+    "query": "SELECT (SELECT good_m FROM mes.v_work_order_table WHERE status = 'Running' ORDER BY run_start DESC NULLS LAST LIMIT 1)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "Int4",
+    "datasource": "mes",
+    "documentation": "Query on mes.v_work_order_table, the Running work order (UNS-004).",
+    "engUnit": "m",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "QtyReject",
+    "query": "SELECT (SELECT reject_m FROM mes.v_work_order_table WHERE status = 'Running' ORDER BY run_start DESC NULLS LAST LIMIT 1)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "DateTime",
+    "datasource": "mes",
+    "documentation": "Query on mes.v_work_order_table, the Running work order (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "StartedAt",
+    "query": "SELECT (SELECT run_start FROM mes.v_work_order_table WHERE status = 'Running' ORDER BY run_start DESC NULLS LAST LIMIT 1)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "String",
+    "datasource": "mes",
+    "documentation": "Query on mes.v_work_order_table, the Running work order (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "Status",
+    "query": "SELECT (SELECT status FROM mes.v_work_order_table WHERE status = 'Running' ORDER BY run_start DESC NULLS LAST LIMIT 1)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  },
+  {
+    "dataType": "String",
+    "datasource": "mes",
+    "documentation": "Query on mes.v_work_order_table, the Running work order (UNS-004).",
+    "executionMode": "FixedRate",
+    "executionRate": 2000,
+    "name": "WorkOrderId",
+    "query": "SELECT (SELECT work_order_id FROM mes.v_work_order_table WHERE status = 'Running' ORDER BY run_start DESC NULLS LAST LIMIT 1)",
+    "queryType": "Select",
+    "readOnly": true,
+    "tagType": "AtomicTag",
+    "valueSource": "db"
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "dataType": "DateTime",
+    "documentation": "Written by DT-001 from mes.engine (memory).",
+    "name": "ActiveSince",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "String",
+    "defaultValue": "",
+    "documentation": "Written by DT-001 from mes.engine (memory).",
+    "name": "Class",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "Int4",
+    "defaultValue": 0,
+    "documentation": "Written by DT-001 from mes.engine (memory).",
+    "name": "CurrentAlarm",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "Float8",
+    "defaultValue": 0.0,
+    "documentation": "Written by DT-001 from mes.engine (memory).",
+    "engUnit": "s",
+    "name": "DurationSec",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "String",
+    "defaultValue": "",
+    "documentation": "Written by DT-001 from mes.engine (memory).",
+    "name": "State",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  }
+]

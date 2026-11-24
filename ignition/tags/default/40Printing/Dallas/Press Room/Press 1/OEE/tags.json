@@ -1,0 +1,52 @@
+[
+  {
+    "dataType": "Float8",
+    "defaultValue": 0.0,
+    "documentation": "Written by OEE-002 from mes.engine (memory).",
+    "engUnit": "%",
+    "name": "Availability",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "Float8",
+    "defaultValue": 0.0,
+    "documentation": "Written by OEE-002 from mes.engine (memory).",
+    "engUnit": "%",
+    "name": "OEE",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "Float8",
+    "defaultValue": 0.0,
+    "documentation": "Written by OEE-002 from mes.engine (memory).",
+    "engUnit": "%",
+    "name": "Performance",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "Float8",
+    "defaultValue": 0.0,
+    "documentation": "Written by OEE-002 from mes.engine (memory).",
+    "engUnit": "%",
+    "name": "Quality",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  },
+  {
+    "dataType": "Int4",
+    "defaultValue": 15,
+    "documentation": "Written by OEE-002 from mes.engine (memory).",
+    "engUnit": "min",
+    "name": "WindowMinutes",
+    "readOnly": false,
+    "tagType": "AtomicTag",
+    "valueSource": "memory"
+  }
+]

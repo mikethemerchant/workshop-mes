@@ -1,0 +1,1262 @@
+{
+  "custom": {
+    "workOrders": [],
+    "openRun": "",
+    "unattributed": [],
+    "productOptions": [],
+    "orderOptions": [],
+    "runOptions": [],
+    "result": ""
+  },
+  "params": {},
+  "props": {},
+  "propConfig": {
+    "custom.workOrders": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.ui.work_order_rows()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('work_order_rows', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    },
+    "custom.openRun": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.ui.open_run_line()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('open_run_line', sys.exc_info()[1])\n\t\treturn 'error: %s' % sys.exc_info()[1]"
+          }
+        ]
+      }
+    },
+    "custom.unattributed": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.ui.unattributed_rows()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('unattributed_rows', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    },
+    "custom.productOptions": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.ui.product_options()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('product_options', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    },
+    "custom.orderOptions": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.ui.order_options()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('order_options', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    },
+    "custom.runOptions": {
+      "binding": {
+        "type": "expr",
+        "config": {
+          "expression": "now(2000)"
+        },
+        "transforms": [
+          {
+            "type": "script",
+            "code": "\ttry:\n\t\treturn mes.ui.run_options()\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('run_options', sys.exc_info()[1])\n\t\treturn []"
+          }
+        ]
+      }
+    }
+  },
+  "root": {
+    "type": "ia.container.flex",
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "alignItems": "stretch"
+    },
+    "children": [
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "Title"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "text": "Work orders \u2014 WO-001 test (throwaway)"
+        }
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "OpenRun"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {},
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "type": "property",
+              "config": {
+                "path": "view.custom.openRun"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.display.table",
+        "meta": {
+          "name": "WorkOrders"
+        },
+        "position": {
+          "shrink": 0,
+          "basis": "400px"
+        },
+        "props": {
+          "data": [],
+          "columns": [
+            {
+              "field": "wo",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Work order",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "product",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Product",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "status",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Status",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "priority",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Priority",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "planned_m",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Planned m",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "good_m",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Good m",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "reject_m",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Reject m",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "lanes",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Lanes",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "lane_m",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Lane-m",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "diff_m",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Over/under m",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "run_start",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Run start",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "run_end",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Run end",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "due",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Due",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            }
+          ]
+        },
+        "propConfig": {
+          "props.data": {
+            "binding": {
+              "type": "property",
+              "config": {
+                "path": "view.custom.workOrders"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "UnattributedTitle"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "text": "Unattributed runs (product made with no Released order)"
+        }
+      },
+      {
+        "type": "ia.display.table",
+        "meta": {
+          "name": "Unattributed"
+        },
+        "position": {
+          "shrink": 0,
+          "basis": "300px"
+        },
+        "props": {
+          "data": [],
+          "columns": [
+            {
+              "field": "product",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Product",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "start",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Start",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "end",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "End",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "good_m",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Good m",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            },
+            {
+              "field": "reject_m",
+              "visible": true,
+              "editable": false,
+              "render": "auto",
+              "justify": "auto",
+              "align": "center",
+              "resizable": true,
+              "sortable": false,
+              "sort": "none",
+              "header": {
+                "title": "Reject m",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "footer": {
+                "title": "",
+                "justify": "left",
+                "align": "center",
+                "style": {
+                  "classes": ""
+                }
+              },
+              "width": "",
+              "strictWidth": false,
+              "style": {
+                "classes": ""
+              }
+            }
+          ]
+        },
+        "propConfig": {
+          "props.data": {
+            "binding": {
+              "type": "property",
+              "config": {
+                "path": "view.custom.unattributed"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "ActionsTitle"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "text": "Actions (WO-003 test)"
+        }
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "CreateRow"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "alignItems": "center"
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "CreateLabel"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Create:"
+            }
+          },
+          {
+            "type": "ia.input.dropdown",
+            "meta": {
+              "name": "CreateProduct"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "220px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": {
+                "text": "product"
+              },
+              "options": []
+            },
+            "propConfig": {
+              "props.options": {
+                "binding": {
+                  "type": "property",
+                  "config": {
+                    "path": "view.custom.productOptions"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.numeric-entry-field",
+            "meta": {
+              "name": "CreatePlanned"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "120px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": "planned m"
+            }
+          },
+          {
+            "type": "ia.input.date-time-input",
+            "meta": {
+              "name": "CreateDue"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "220px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": "due"
+            }
+          },
+          {
+            "type": "ia.input.dropdown",
+            "meta": {
+              "name": "CreatePriority"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "120px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": {
+                "text": "priority"
+              },
+              "options": [
+                {
+                  "value": "Normal",
+                  "label": "Normal"
+                },
+                {
+                  "value": "Rush",
+                  "label": "Rush"
+                }
+              ]
+            }
+          },
+          {
+            "type": "ia.input.text-field",
+            "meta": {
+              "name": "CreateNotes"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "180px"
+            },
+            "props": {
+              "text": "",
+              "placeholder": "notes"
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Create"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "100px"
+            },
+            "props": {
+              "text": "Create"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tres = mes.workorder.create(self.getSibling('CreateProduct').props.value, self.getSibling('CreatePlanned').props.value,\n\t\t\tself.getSibling('CreateDue').props.value, self.getSibling('CreatePriority').props.value, self.getSibling('CreateNotes').props.text)\n\texcept:\n\t\timport sys\n\t\tres = 'error: %s' % (sys.exc_info()[1],)\n\tself.view.custom.result = res"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "StatusRow"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "alignItems": "center"
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "StatusLabel"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Status:"
+            }
+          },
+          {
+            "type": "ia.input.dropdown",
+            "meta": {
+              "name": "StatusOrder"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "260px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": {
+                "text": "work order"
+              },
+              "options": []
+            },
+            "propConfig": {
+              "props.options": {
+                "binding": {
+                  "type": "property",
+                  "config": {
+                    "path": "view.custom.orderOptions"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.text-field",
+            "meta": {
+              "name": "StatusReason"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "180px"
+            },
+            "props": {
+              "text": "",
+              "placeholder": "reason (for Hold)"
+            }
+          },
+          {
+            "type": "ia.input.text-field",
+            "meta": {
+              "name": "StatusBy"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "180px"
+            },
+            "props": {
+              "text": "",
+              "placeholder": "entered by"
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Release"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "100px"
+            },
+            "props": {
+              "text": "Release"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\two, by = self.getSibling('StatusOrder').props.value, self.getSibling('StatusBy').props.text\n\t\tres = mes.workorder.release(wo, by)\n\texcept:\n\t\timport sys\n\t\tres = 'error: %s' % (sys.exc_info()[1],)\n\tself.view.custom.result = res"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Hold"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "100px"
+            },
+            "props": {
+              "text": "Hold"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\two, by = self.getSibling('StatusOrder').props.value, self.getSibling('StatusBy').props.text\n\t\tres = mes.workorder.hold(wo, self.getSibling('StatusReason').props.text, by)\n\texcept:\n\t\timport sys\n\t\tres = 'error: %s' % (sys.exc_info()[1],)\n\tself.view.custom.result = res"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Cancel"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "100px"
+            },
+            "props": {
+              "text": "Cancel"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\two, by = self.getSibling('StatusOrder').props.value, self.getSibling('StatusBy').props.text\n\t\tres = mes.workorder.cancel(wo, by)\n\texcept:\n\t\timport sys\n\t\tres = 'error: %s' % (sys.exc_info()[1],)\n\tself.view.custom.result = res"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Close"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "100px"
+            },
+            "props": {
+              "text": "Close"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\two, by = self.getSibling('StatusOrder').props.value, self.getSibling('StatusBy').props.text\n\t\tres = mes.workorder.close(wo, by)\n\texcept:\n\t\timport sys\n\t\tres = 'error: %s' % (sys.exc_info()[1],)\n\tself.view.custom.result = res"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "ReassignRow"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "alignItems": "center"
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "ReassignLabel"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "text": "Reassign:"
+            }
+          },
+          {
+            "type": "ia.input.dropdown",
+            "meta": {
+              "name": "ReassignRun"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "320px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": {
+                "text": "run"
+              },
+              "options": []
+            },
+            "propConfig": {
+              "props.options": {
+                "binding": {
+                  "type": "property",
+                  "config": {
+                    "path": "view.custom.runOptions"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.dropdown",
+            "meta": {
+              "name": "ReassignTarget"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "220px"
+            },
+            "props": {
+              "value": null,
+              "placeholder": {
+                "text": "target (Released, same product)"
+              },
+              "options": []
+            },
+            "propConfig": {
+              "props.options": {
+                "binding": {
+                  "type": "expr",
+                  "config": {
+                    "expression": "if(now(2000) > 0, {../ReassignRun.props.value}, '')"
+                  },
+                  "transforms": [
+                    {
+                      "type": "script",
+                      "code": "\ttry:\n\t\treturn mes.ui.target_options(value)\n\texcept:\n\t\timport sys\n\t\tmes.ui.log_once('target_options', sys.exc_info()[1])\n\t\treturn []"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "ia.input.text-field",
+            "meta": {
+              "name": "ReassignBy"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "180px"
+            },
+            "props": {
+              "text": "",
+              "placeholder": "entered by"
+            }
+          },
+          {
+            "type": "ia.input.button",
+            "meta": {
+              "name": "Reassign"
+            },
+            "position": {
+              "shrink": 0,
+              "basis": "100px"
+            },
+            "props": {
+              "text": "Reassign"
+            },
+            "events": {
+              "component": {
+                "onActionPerformed": {
+                  "type": "script",
+                  "scope": "G",
+                  "config": {
+                    "script": "\ttry:\n\t\tref, product = mes.ui.parse_run_option(self.getSibling('ReassignRun').props.value)\n\t\tres = mes.workorder.reassign(ref, self.getSibling('ReassignTarget').props.value, self.getSibling('ReassignBy').props.text)\n\texcept:\n\t\timport sys\n\t\tres = 'error: %s' % (sys.exc_info()[1],)\n\tself.view.custom.result = res"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "Result"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {},
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "type": "property",
+              "config": {
+                "path": "view.custom.result"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
